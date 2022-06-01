@@ -98,11 +98,6 @@ namespace Sistema
 
             }
         }
-        public void date()///
-        {
-            string Date = DateTime.Now.ToString("G");
-            string op = "";
-
-        }
+        
     }
 }
