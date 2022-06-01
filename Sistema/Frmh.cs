@@ -59,12 +59,59 @@ namespace Sistema
         }//
         public void cargar()
         {
-           
+            id = Session.id_usuario;
+            id_cajero = Session.i;
+            MySqlConnection conexion = Conexion.getConexion();
+            conexion.Open();
+            DataSet ds = new DataSet();
+            DataTable table = new DataTable();
 
-           
+
+            string sql = ("SELECT fecha, cantidadH, movimiento, ubicacion FROM historial INNER JOIN cajero ON historial.id_cajero=cajero.id_cajero WHERE id_usuario LIKE '" + id + "'");
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter(sql, conexion);
+            adapter.Fill(ds);
+            table = ds.Tables[0];
+            this.listView1.Items.Clear();
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+
+                DataRow filas = table.Rows[i];
+
+                ListViewItem lvItem = new ListViewItem(filas[0].ToString());
+                lvItem.SubItems.Add(filas[1].ToString());
+                lvItem.SubItems.Add(filas[2].ToString());
+                lvItem.SubItems.Add(filas[3].ToString());
+
+                listView1.Items.Add(lvItem);
+
+
+            }
+
+
         }
-        
-        
+
+        public void ex()
+        {
+            MySqlDataReader reader;
+            MySqlConnection conexion = Conexion.getConexion();
+            conexion.Open();
+
+            string sql = "SELECT id_cajero FROM historial WHERE user LIKE @usuario";
+            MySqlCommand comando = new MySqlCommand(sql, conexion);
+            //   comando.Parameters.AddWithValue("@usuario", usuario);
+
+            reader = comando.ExecuteReader();
+
+            Usuarios usr = null;
+
+            while (reader.Read())
+            {
+                usr = new Usuarios();
+                usr.Id = int.Parse(reader["id_usuario"].ToString());
+            }
+
+        }
         public void h()
         {
             // Propiedades del ListView
