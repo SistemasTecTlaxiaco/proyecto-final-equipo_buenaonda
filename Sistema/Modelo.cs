@@ -79,11 +79,45 @@ namespace Sistema
 
         public bool existeUsuario(string usuario)
         {
-            return false;
+            MySqlDataReader reader;
+            MySqlConnection conexion = Conexion.getConexion();
+            conexion.Open();
+
+            string sql = "SELECT id_usuario FROM usuarios WHERE user LIKE @usuario";
+            MySqlCommand comando = new MySqlCommand(sql, conexion);
+            comando.Parameters.AddWithValue("@usuario", usuario);
+
+            reader = comando.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public bool existeCuenta(string cuenta)
         {
-            return false;
+            MySqlDataReader reader;
+            MySqlConnection conexion = Conexion.getConexion();
+            conexion.Open();
+
+            string sql = "SELECT id_usuario FROM usuarios WHERE cuenta LIKE @cuenta";
+            MySqlCommand comando = new MySqlCommand(sql, conexion);
+            comando.Parameters.AddWithValue("@cuenta", cuenta);
+
+            reader = comando.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public Usuarios porUsuario(string usuario)
